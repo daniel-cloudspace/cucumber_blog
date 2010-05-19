@@ -1,0 +1,37 @@
+<p>
+  <b>Title:</b>
+  <%=h @post.title %>
+    <%= link_to 'Delete Post', @post, :confirm => 'Are you sure?', :method => :delete %><br/>
+</p>
+<p>
+  <b>Body:</b>
+  <%=h @post.body %>
+</p>
+
+<% @post.comments.each do |c| %>
+  <p>
+    <b><%=h c.name %></b>
+    <%= link_to 'Delete Comment', c, :confirm => 'Are you sure?', :method => :delete %><br/>
+    <%= time_ago_in_words(c.created_at) %> ago
+  </p>
+
+  <p>
+    <%=h c.body %>
+  </p>
+<% end %>
+
+<% form_for [@post, Comment.new] do |f| %>
+  <p>
+    <%= f.label :name, "Author" %><br/>
+    <%= f.text_field :name %><br/>
+
+    <%= f.label :body, "Comment Description" %><br/>
+    <%= f.text_area :body %><br/>
+  </p>
+
+  <p>
+    <%= f.submit "Add Comment" %>
+<% end %>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
